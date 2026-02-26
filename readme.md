@@ -23,7 +23,7 @@ This script seamlessly integrates into the Dotlan jump planner (`https://evemaps
 
 1.  Ensure you have a UserScript manager installed in your browser, such as [Tampermonkey](https://www.tampermonkey.net/) (Chrome, Edge, Safari, Firefox) or [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (Firefox).
 2.  If you are using a Chromium based browser, additional configuration is necessary due to the changes imposed with Manifest v3. Tampermonkey has a decent walkthrough on their [FAQ](https://www.tampermonkey.net/faq.php#Q209)
-3.  Install the script by clicking on the `dotlan_improvements_enhanced.user.js` file and adding it to your extension, or by copying the contents of the file and creating a new script manually in your manager's dashboard.
+3.  Install the script by clicking on the `dotlan_improvements_enhanced.user.js` file, opening it as raw, and adding it to your extension; or by copying the contents of the file and creating a new script manually in your manager's dashboard.
 
 ## Usage
 

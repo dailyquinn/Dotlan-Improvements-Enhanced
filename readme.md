@@ -35,7 +35,7 @@ This script seamlessly integrates into the Dotlan jump planner (`https://evemaps
     
 ## Wait Time Adjustment Buttons
 
-    Brief explanation of each button
+Brief explanation of each button
 
 *    Minimize Fatigue on route: This button will automatically set the wait time for each jump to ensure each jump is treated as if it were your first jump for fatigue generation.
 *    Minimize Wait: This button will set the minimum wait times for every jump except for the last jump on your route, which will be set to the time needed in order to arrive at your destination with the minimum possible fatigue.

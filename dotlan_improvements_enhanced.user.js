@@ -164,6 +164,13 @@ function df_buildTableAdditions() {
     totalRow.style.textAlign = "center";
     totalRow.style.fontWeight = "bold";
 
+    // --- Header ---
+    var routeHeader = document.createElement('div');
+    routeHeader.innerHTML = "Route Statistics";
+    routeHeader.style.fontSize = "14px";
+    routeHeader.style.marginBottom = "5px";
+    totalRow.appendChild(routeHeader);
+
     // --- Line 1: Arrival Stats ---
     totalRow.appendChild(document.createTextNode("Arrival Fatigue: "));
     var arrFatigueB = document.createElement('b');
@@ -209,44 +216,58 @@ function df_buildTableAdditions() {
     btnContainer.style.paddingTop = "10px";
     btnContainer.style.paddingBottom = "10px";
 
-    // Button 1: Min Fatigue on ALL jumps
-    var btnMinAll = document.createElement('button');
-    btnMinAll.type = "button";
-    btnMinAll.innerHTML = "Min Fatigue (All Jumps)";
-    btnMinAll.style.padding = "6px 12px";
-    btnMinAll.style.cursor = "pointer";
-    btnMinAll.style.fontWeight = "bold";
-    btnMinAll.style.backgroundColor = "#e0e0e0";
-    btnMinAll.style.color = "#333";
-    btnMinAll.style.border = "1px solid #aaa";
-    btnMinAll.style.borderRadius = "4px";
-    btnMinAll.style.marginRight = "10px";
-    btnMinAll.onclick = function(e) {
+    var headerTitle = document.createElement('h3');
+    headerTitle.innerHTML = "Wait Time Adjustment";
+    headerTitle.style.marginBottom = "5px";
+    headerTitle.style.marginTop = "10px";
+
+    var subHeaderTitle = document.createElement('div');
+    subHeaderTitle.innerHTML = "Automatic calculation of wait times to minimize fatigue on arrival";
+    subHeaderTitle.style.fontSize = "12px";
+    subHeaderTitle.style.color = "#666";
+    subHeaderTitle.style.marginBottom = "15px";
+
+    btnContainer.appendChild(headerTitle);
+    btnContainer.appendChild(subHeaderTitle);
+
+    // Button 1: Minimize Fatigue on route
+    var btnMinRoute = document.createElement('button');
+    btnMinRoute.type = "button";
+    btnMinRoute.innerHTML = "Minimize Fatigue on route";
+    btnMinRoute.style.padding = "6px 12px";
+    btnMinRoute.style.cursor = "pointer";
+    btnMinRoute.style.fontWeight = "bold";
+    btnMinRoute.style.backgroundColor = "#e0e0e0";
+    btnMinRoute.style.color = "#333";
+    btnMinRoute.style.border = "1px solid #aaa";
+    btnMinRoute.style.borderRadius = "4px";
+    btnMinRoute.style.marginRight = "10px";
+    btnMinRoute.onclick = function(e) {
         e.preventDefault();
-        df_applyWaits(df_calculateStrategyWaits('min_all'));
+        df_applyWaits(df_calculateStrategyWaits('min_route'));
     };
 
-    // Button 2: Rush, then Min Fatigue on LAST jump
-    var btnRushMin = document.createElement('button');
-    btnRushMin.type = "button";
-    btnRushMin.innerHTML = "Rush, Min Fatigue on Last";
-    btnRushMin.style.padding = "6px 12px";
-    btnRushMin.style.cursor = "pointer";
-    btnRushMin.style.fontWeight = "bold";
-    btnRushMin.style.backgroundColor = "#e0e0e0";
-    btnRushMin.style.color = "#333";
-    btnRushMin.style.border = "1px solid #aaa";
-    btnRushMin.style.borderRadius = "4px";
-    btnRushMin.style.marginRight = "10px";
-    btnRushMin.onclick = function(e) {
+    // Button 2: Minimize Wait
+    var btnMinWait = document.createElement('button');
+    btnMinWait.type = "button";
+    btnMinWait.innerHTML = "Minimize Wait";
+    btnMinWait.style.padding = "6px 12px";
+    btnMinWait.style.cursor = "pointer";
+    btnMinWait.style.fontWeight = "bold";
+    btnMinWait.style.backgroundColor = "#e0e0e0";
+    btnMinWait.style.color = "#333";
+    btnMinWait.style.border = "1px solid #aaa";
+    btnMinWait.style.borderRadius = "4px";
+    btnMinWait.style.marginRight = "10px";
+    btnMinWait.onclick = function(e) {
         e.preventDefault();
-        df_applyWaits(df_calculateStrategyWaits('rush_then_min'));
+        df_applyWaits(df_calculateStrategyWaits('min_wait'));
     };
 
     // Button 3: Reset to Minimums (Mandatory Reactivation Timers Only)
     var btnResetMin = document.createElement('button');
     btnResetMin.type = "button";
-    btnResetMin.innerHTML = "Reset to Minimums";
+    btnResetMin.innerHTML = "Reset";
     btnResetMin.style.padding = "6px 12px";
     btnResetMin.style.cursor = "pointer";
     btnResetMin.style.fontWeight = "bold";
@@ -259,8 +280,8 @@ function df_buildTableAdditions() {
         df_applyWaits(df_calculateStrategyWaits('rush_all'));
     };
 
-    btnContainer.appendChild(btnMinAll);
-    btnContainer.appendChild(btnRushMin);
+    btnContainer.appendChild(btnMinRoute);
+    btnContainer.appendChild(btnMinWait);
     btnContainer.appendChild(btnResetMin);
 
     // Append the button container as a direct sibling beneath the jump table
@@ -340,12 +361,12 @@ function df_doCalcsInit() {
     var totalRowCell = jumptable.rows[jumptable.rows.length - 1].cells[0];
 
     // Line 1 mappings (Arrival Stats)
-    totalRowCell.childNodes[1].childNodes[0].nodeValue = arrFatigueVal;
-    totalRowCell.childNodes[3].childNodes[0].nodeValue = arrReactVal;
+    totalRowCell.childNodes[2].childNodes[0].nodeValue = arrFatigueVal;
+    totalRowCell.childNodes[4].childNodes[0].nodeValue = arrReactVal;
 
     // Line 2 mappings (Totals)
-    totalRowCell.childNodes[6].childNodes[0].nodeValue = totalTimeOb;
-    totalRowCell.childNodes[8].childNodes[0].nodeValue = totalTravelOb;
+    totalRowCell.childNodes[7].childNodes[0].nodeValue = totalTimeOb;
+    totalRowCell.childNodes[9].childNodes[0].nodeValue = totalTravelOb;
 }
 
 
@@ -401,12 +422,12 @@ function df_doCalcsUpdate() {
     var totalRowCell = jumptable.rows[jumptable.rows.length - 1].cells[0];
 
     // Line 1 mappings (Arrival Stats)
-    totalRowCell.childNodes[1].childNodes[0].nodeValue = arrFatigueVal;
-    totalRowCell.childNodes[3].childNodes[0].nodeValue = arrReactVal;
+    totalRowCell.childNodes[2].childNodes[0].nodeValue = arrFatigueVal;
+    totalRowCell.childNodes[4].childNodes[0].nodeValue = arrReactVal;
 
     // Line 2 mappings (Totals)
-    totalRowCell.childNodes[6].childNodes[0].nodeValue = totalTimeOb;
-    totalRowCell.childNodes[8].childNodes[0].nodeValue = totalTravelOb;
+    totalRowCell.childNodes[7].childNodes[0].nodeValue = totalTimeOb;
+    totalRowCell.childNodes[9].childNodes[0].nodeValue = totalTravelOb;
 }
 
 
@@ -434,10 +455,10 @@ function df_calculateStrategyWaits(strategy) {
         // Calculate the wait times before the *next* jump
         if (i < jumps.length - 1) {
             var wait = 0;
-            if (strategy === 'min_all') {
+            if (strategy === 'min_route') {
                 // Wait until fatigue drops to 10 mins (600 seconds) or red timer, whichever is longer
                 wait = Math.max(tempReactivation, tempFatigue - 600);
-            } else if (strategy === 'rush_then_min') {
+            } else if (strategy === 'min_wait') {
                 // If it's the very last wait time (before the final jump)
                 if (i === jumps.length - 2) {
                     wait = Math.max(tempReactivation, tempFatigue - 600);
